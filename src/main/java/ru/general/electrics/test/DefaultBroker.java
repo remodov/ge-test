@@ -2,8 +2,7 @@ package ru.general.electrics.test;
 
 import ru.general.electrics.test.dto.Message;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.function.Consumer;
 
@@ -11,7 +10,7 @@ import java.util.function.Consumer;
  * Store que and consumers.
  */
 public class DefaultBroker implements Broker {
-    private final List<Consumer<Message>> consumers = new ArrayList<>();
+    private final ConcurrentLinkedQueue<Consumer<Message>> consumers = new ConcurrentLinkedQueue<>();
 
     private final PriorityBlockingQueue<Message> priorityQueue = new PriorityBlockingQueue<>();
 
@@ -40,8 +39,13 @@ public class DefaultBroker implements Broker {
         System.out.println("priorityQueue size: " + priorityQueue.size());
     }
 
-    public synchronized DefaultBroker registerConsumer(Consumer<Message> consumer) {
+    public DefaultBroker registerConsumer(Consumer<Message> consumer) {
+        if (consumer == null) {
+            throw new IllegalArgumentException("Consumer can not be null");
+        }
+
         consumers.add(consumer);
+
         return this;
     }
 
