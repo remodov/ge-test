@@ -13,12 +13,6 @@ public interface Broker {
      */
     void start();
 
-
-    /**
-     * Stop broker
-     */
-    void stop();
-
     /**
      * Add new subscriber for que
      *

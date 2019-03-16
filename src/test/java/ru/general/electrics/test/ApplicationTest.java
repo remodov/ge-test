@@ -30,12 +30,12 @@ public class ApplicationTest {
 
     @Test
     public void testSendOneMessageFromOneProducerToOneConsumerSuccess() {
-        DefaultBroker defaultBroker = new DefaultBroker();
+        Broker defaultBroker = new DefaultBroker();
         defaultBroker.registerConsumer(new SystemBConsumer());
 
         new SystemAProducer(defaultBroker).sendMessage();
 
-        defaultBroker.sendMessagesToConsumers();
+        ((DefaultBroker) defaultBroker).sendMessagesToConsumers();
 
         String[] split = outContent.toString().split("\n");
         String producerSendMessage = split[0].replace("SystemAProducer: ","");
@@ -61,24 +61,6 @@ public class ApplicationTest {
 
         assertEquals(consumerOneReceiveMessage , consumerTwoReceiveMessage);
         assertEquals(consumerOneReceiveMessage , producerSendMessage);
-    }
-
-    @Test
-    public void testSuccessBrokerStop() {
-        Broker defaultBroker = new DefaultBroker();
-
-        defaultBroker.start();
-
-        defaultBroker.stop();
-    }
-
-    @Test
-    public void testSuccessProducerStop() {
-        SystemAProducer systemAProducer = new SystemAProducer(new DefaultBroker());
-
-        systemAProducer.start();
-
-        systemAProducer.stop();
     }
 
 }

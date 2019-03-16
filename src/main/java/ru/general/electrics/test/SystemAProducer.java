@@ -19,14 +19,10 @@ public class SystemAProducer {
     public void start() {
         new Thread(
                 () -> {
-                    while (!Thread.currentThread().isInterrupted()) {
+                    while (true){
                         sendMessage();
                     }
                 }).start();
-    }
-
-    public void stop() {
-        Thread.currentThread().interrupt();
     }
 
     protected void sendMessage() {

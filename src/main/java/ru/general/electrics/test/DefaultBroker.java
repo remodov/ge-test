@@ -19,15 +19,10 @@ public class DefaultBroker implements Broker {
     public void start() {
         new Thread(
                 () -> {
-                    while (!Thread.currentThread().isInterrupted()) {
+                    while (true) {
                         sendMessagesToConsumers();
                     }
                 }).start();
-    }
-
-    @Override
-    public void stop() {
-        Thread.currentThread().interrupt();
     }
 
     /**
